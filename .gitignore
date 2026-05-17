@@ -1,0 +1,43 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Compiler / linker artifacts
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# Debug / profiling
+*.dSYM/
+*.gcno
+*.gcda
+*.prof
+
+# Cache directories
+.cache/
+
+# Editors / IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
