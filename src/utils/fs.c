@@ -11,14 +11,14 @@ int write_file(const char *path, const char *content) {
     int fd = open(path, O_WRONLY);
 
     if (fd < 0) {
-        log_errno("open file");
+        log_errno("open(%s)", path);
         return -1;
     }
 
     ssize_t len = strlen(content);
 
     if (write(fd, content, len) != len) {
-        log_errno("write file");
+        log_errno("write(%s)", path);
         close(fd);
         return -1;
     }
