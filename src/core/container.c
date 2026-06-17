@@ -13,7 +13,9 @@
 #include "utils/fs.h"
 #include "utils/log.h"
 
-#define STACK_SIZE (1024 * 1024)
+enum {
+    STACK_SIZE = 1024 * 1024
+};
 
 static char child_stack[STACK_SIZE];
 
