@@ -17,6 +17,8 @@ include_directories(include)
 
 add_executable(husk
     src/main.c
+    
     src/utils/fs.c
+    src/utils/log.c
 )
 
