@@ -8,6 +8,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "sys/sys.h"
+
 enum {
     LOG_BUFFER_SIZE = 4096
 };
@@ -19,7 +21,7 @@ static void log_message(
     const char *fmt,
     va_list args
 ) {
-    char buffer[BUFSIZ];
+    char buffer[LOG_BUFFER_SIZE];
     int offset = 0;
 
     pid_t pid = getpid();
@@ -60,7 +62,7 @@ static void log_message(
         offset = sizeof(buffer);
     }
 
-    write(log_fd, buffer, offset);
+    sys_write(log_fd, buffer, offset);
 }
 
 int log_init(const char *path) {
@@ -108,7 +110,7 @@ void log_error(const char *fmt, ...) {
 void log_errno(const char *fmt, ...) {
     int saved_errno = errno;
 
-    char user_msg[BUFSIZ];
+    char user_msg[LOG_BUFFER_SIZE];
 
     va_list args;
     va_start(args, fmt);
@@ -117,7 +119,7 @@ void log_errno(const char *fmt, ...) {
 
     va_end(args);
 
-    char buffer[BUFSIZ];
+    char buffer[LOG_BUFFER_SIZE];
     int offset = 0;
 
     pid_t pid = getpid();
@@ -143,7 +145,7 @@ void log_errno(const char *fmt, ...) {
     );
 
     if (offset > 0) {
-        write(log_fd, buffer, offset);
+        sys_write(log_fd, buffer, offset);
     }
 }
 

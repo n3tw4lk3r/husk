@@ -16,3 +16,13 @@ int sys_execvp(const char *file, char *const argv[]);
 
 int sys_sethostname(const char *name, size_t len);
 
+int sys_open(const char *path, int flags, mode_t mode);
+
+int sys_close(int fd);
+
+uid_t sys_getuid(void);
+
+gid_t sys_getgid(void);
+
+pid_t sys_getpid(void);
+

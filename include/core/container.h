@@ -1,4 +1,6 @@
 #pragma once
 
-int container_run(char **argv);
+#include "core/container_config.h"
+
+int container_run(const container_config *config);
 

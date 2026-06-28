@@ -1,10 +1,10 @@
 #include "utils/fs.h"
 
 #include <fcntl.h>
+#include <string.h>
 #include <unistd.h>
 
-#include <string.h>
-
+#include "sys/sys.h"
 #include "utils/log.h"
 
 int write_file(const char *path, const char *content) {
@@ -17,7 +17,7 @@ int write_file(const char *path, const char *content) {
 
     ssize_t len = strlen(content);
 
-    if (write(fd, content, len) != len) {
+    if (sys_write(fd, content, len) != len) {
         log_errno("write(%s)", path);
         close(fd);
         return -1;

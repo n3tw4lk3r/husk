@@ -1,6 +1,9 @@
 #define _GNU_SOURCE
 
+// Will use custom ASM implementations later
+
 #include "sys/sys.h"
+#include <fcntl.h>
 
 #include <sched.h>
 #include <sys/wait.h>
@@ -32,5 +35,25 @@ int sys_execvp(const char *file, char *const argv[]) {
 
 int sys_sethostname(const char *name, size_t len) {
     return sethostname(name, len);
+}
+
+int sys_open(const char *path, int flags, mode_t mode) {
+    return open(path, flags, mode);
+}
+
+int sys_close(int fd) {
+    return close(fd);
+}
+
+uid_t sys_getuid(void) {
+    return getuid();
+}
+
+gid_t sys_getgid(void) {
+    return getgid();
+}
+
+pid_t sys_getpid(void) {
+    return getpid();
 }
 
