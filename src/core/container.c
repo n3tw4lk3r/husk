@@ -5,13 +5,13 @@
 #include <limits.h>
 #include <sched.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+#include "core/user_namespace.h"
+#include "core/uts_namespace.h"
 #include "sys/sys.h"
-#include "utils/fs.h"
 #include "utils/log.h"
 
 enum {
@@ -39,46 +39,13 @@ static int child_main(void *arg) {
 
     sys_close(child_cfg->pipe_fd[0]);
 
-    sys_sethostname(
-        child_cfg->config->hostname,
-        strlen(child_cfg->config->hostname)
-    );
+    uts_namespace_setup(child_cfg->config);
 
     log_info("executing %s", child_cfg->config->argv[0]);
     sys_execvp(child_cfg->config->argv[0], child_cfg->config->argv);
 
     log_errno("execvp(%s)", child_cfg->config->argv[0]);
     return EXIT_FAILURE;
-}
-
-static int setup_uid_gid_map(pid_t pid) {
-    char path[PATH_MAX];
-    char map[256];
-
-    uid_t uid = sys_getuid();
-    gid_t gid = sys_getgid();
-
-    snprintf(path, sizeof(path), "/proc/%d/setgroups", pid);
-
-    if (write_file(path, "deny") < 0) {
-        return -1;
-    }
-
-    snprintf(path, sizeof(path), "/proc/%d/uid_map", pid);
-    snprintf(map, sizeof(map), "0 %d 1\n", uid);
-
-    if (write_file(path, map) < 0) {
-        return -1;
-    }
-
-    snprintf(path, sizeof(path), "/proc/%d/gid_map", pid);
-    snprintf(map, sizeof(map), "0 %d 1\n", gid);
-
-    if (write_file(path, map) < 0) {
-        return -1;
-    }
-
-    return 0;
 }
 
 int container_run(const container_config *config) {
@@ -101,6 +68,9 @@ int container_run(const container_config *config) {
     );
 
     if (pid < 0) {
+        sys_close(child_cfg.pipe_fd[0]);
+        sys_close(child_cfg.pipe_fd[1]);
+
         log_errno("clone");
         return EXIT_FAILURE;
     }
@@ -109,15 +79,15 @@ int container_run(const container_config *config) {
 
     sys_close(child_cfg.pipe_fd[0]);
 
-    log_info("configuring uid/gid mappings");
+    log_info("configuring user namespace");
 
-    if (setup_uid_gid_map(pid) < 0) {
+    if (user_namespace_setup(pid) < 0) {
         sys_close(child_cfg.pipe_fd[1]);
         sys_waitpid(pid, NULL, 0);
         return EXIT_FAILURE;
     }
 
-    log_info("uid/gid mappings configured");
+    log_info("user namespace configured");
 
     if (sys_write(child_cfg.pipe_fd[1], "x", 1) != 1) {
         log_errno("write (sync)");
