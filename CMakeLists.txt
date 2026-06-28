@@ -21,6 +21,8 @@ add_executable(husk
     src/core/container.c
     src/core/container_config.c
 
+    src/sys/sys.c
+
     src/utils/fs.c
     src/utils/log.c
 )
