@@ -20,6 +20,7 @@ add_executable(husk
 
     src/core/container.c
     src/core/container_config.c
+    src/core/mount_namespace.c
     src/core/user_namespace.c
     src/core/uts_namespace.c
 

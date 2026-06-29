@@ -37,3 +37,11 @@ int sys_sigaction(
 
 int sys_sigemptyset(sigset_t *set);
 
+int sys_mount(
+    const char *source,
+    const char *target,
+    const char *filesystemtype,
+    unsigned long flags,
+    const void *data
+);
+

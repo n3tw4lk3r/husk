@@ -6,6 +6,7 @@
 
 #include <fcntl.h>
 #include <sched.h>
+#include <sys/mount.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -71,5 +72,15 @@ int sys_sigaction(
 
 int sys_sigemptyset(sigset_t *set) {
     return sigemptyset(set);
+}
+
+int sys_mount(
+    const char *source,
+    const char *target,
+    const char *filesystemtype,
+    unsigned long flags,
+    const void *data
+) {
+    return mount(source, target, filesystemtype, flags, data);
 }
 

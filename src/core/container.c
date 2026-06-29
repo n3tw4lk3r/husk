@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 #include "core/user_namespace.h"
+#include "core/mount_namespace.h"
 #include "core/uts_namespace.h"
 #include "sys/sys.h"
 #include "utils/log.h"
@@ -119,6 +120,10 @@ static int child_main(void *arg) {
 
     if (uts_namespace_setup(child_cfg->config) < 0) {
         log_error("uts_namespace_setup failed");
+        return EXIT_FAILURE;
+    }
+
+    if (mount_namespace_setup() < 0) {
         return EXIT_FAILURE;
     }
 

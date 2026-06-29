@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
     container_config_enable_namespace(&config, CLONE_NEWUSER);
     container_config_enable_namespace(&config, CLONE_NEWUTS);
     container_config_enable_namespace(&config, CLONE_NEWPID);
+    container_config_enable_namespace(&config, CLONE_NEWNS);
 
     if (container_config_build(&config) < 0) {
         fprintf(stderr, "Invalid container configuration\n");
