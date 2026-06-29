@@ -3,8 +3,8 @@
 // Will use custom ASM implementations later
 
 #include "sys/sys.h"
-#include <fcntl.h>
 
+#include <fcntl.h>
 #include <sched.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -55,5 +55,21 @@ gid_t sys_getgid(void) {
 
 pid_t sys_getpid(void) {
     return getpid();
+}
+
+pid_t sys_fork(void) {
+    return fork();
+}
+
+int sys_sigaction(
+    int signum,
+    const struct sigaction *act,
+    struct sigaction *oldact
+) {
+    return sigaction(signum, act, oldact);
+}
+
+int sys_sigemptyset(sigset_t *set) {
+    return sigemptyset(set);
 }
 

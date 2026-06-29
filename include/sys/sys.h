@@ -1,5 +1,6 @@
 #pragma once
 
+#include <signal.h>
 #include <sys/types.h>
 
 pid_t sys_clone(int (*fn)(void *), void *stack, int flags, void *arg);
@@ -25,4 +26,14 @@ uid_t sys_getuid(void);
 gid_t sys_getgid(void);
 
 pid_t sys_getpid(void);
+
+pid_t sys_fork(void);
+
+int sys_sigaction(
+    int signum,
+    const struct sigaction *act,
+    struct sigaction *oldact
+);
+
+int sys_sigemptyset(sigset_t *set);
 
