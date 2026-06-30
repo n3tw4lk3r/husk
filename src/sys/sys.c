@@ -84,3 +84,10 @@ int sys_mount(
     return mount(source, target, filesystemtype, flags, data);
 }
 
+int sys_chroot(const char *path) {
+    return chroot(path);
+}
+
+int sys_chdir(const char *path) {
+    return chdir(path);
+}

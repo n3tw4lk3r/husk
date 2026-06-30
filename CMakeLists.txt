@@ -18,8 +18,11 @@ include_directories(include)
 add_executable(husk
     src/main.c
 
+    src/core/rootfs/chroot_rootfs.c
+    src/core/rootfs/rootfs.c
     src/core/container.c
     src/core/container_config.c
+    src/core/environment.c
     src/core/mount_namespace.c
     src/core/user_namespace.c
     src/core/uts_namespace.c

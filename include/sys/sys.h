@@ -45,3 +45,7 @@ int sys_mount(
     const void *data
 );
 
+int sys_chroot(const char *path);
+
+int sys_chdir(const char *path);
+

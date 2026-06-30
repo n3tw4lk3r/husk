@@ -7,3 +7,4 @@
 int uts_namespace_setup(const container_config *config) {
     return sys_sethostname(config->hostname, strlen(config->hostname));
 }
+

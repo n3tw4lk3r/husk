@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
 
     container_config_set_command(&config, &argv[1]);
 
+    container_config_set_rootfs(&config, "/home/ch1ldzero/development/alpine-rootfs/");
+
     container_config_enable_namespace(&config, CLONE_NEWUSER);
     container_config_enable_namespace(&config, CLONE_NEWUTS);
     container_config_enable_namespace(&config, CLONE_NEWPID);
